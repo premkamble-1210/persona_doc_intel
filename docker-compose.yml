@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  persona-doc-intel:
+    build: .
+    container_name: persona-document-intelligence
+    volumes:
+      # Mount input documents
+      - ./data/input_documents:/app/data/input_documents:ro
+      # Mount output directory
+      - ./data/output:/app/data/output
+      # Mount cache for embeddings (optional, for persistence)
+      - ./cache:/app/cache
+      # Mount config if you want to customize
+      - ./config:/app/config:ro
+    environment:
+      - PYTHONPATH=/app
+      - PYTHONUNBUFFERED=1
+    # Override command if needed
+    # command: ["python", "run_pipeline.py", "--input-dir", "/app/data/input_documents"]
+    
+  # Optional: Add a service for development with mounted source code
+  persona-doc-intel-dev:
+    build: .
+    container_name: persona-document-intelligence-dev
+    volumes:
+      - .:/app
+    environment:
+      - PYTHONPATH=/app
+      - PYTHONUNBUFFERED=1
+    profiles:
+      - dev
+    command: ["python", "run_pipeline.py"]

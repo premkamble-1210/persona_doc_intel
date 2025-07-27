@@ -1,0 +1,2 @@
+# This file ensures the cache/embeddings directory is tracked by Git
+# but allows the actual cache files to be ignored
